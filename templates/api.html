@@ -1,0 +1,577 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TEST-API</title>
+	<style>
+        table {
+            width: 100%;
+            border-collapse: collapse; 
+			background-color: beige;
+        }
+        th, td {
+            padding: 15px;
+            border: 3px solid black; 
+            text-align: left; 
+        }
+        th {
+            background-color: #8cb7e2;
+        }
+    </style>
+</head>
+<body>
+	
+<h1> CopyPasteAdapt - test API</h1>
+<tr>
+<h2> POST | https://copy-paste-adapt.ru/api/register </h2>
+	<table>
+		<thead>
+		  <tr>
+			<th>Запрос</th>
+			<th>Ответ</th>
+			<th>Примечание</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>{
+				"email":"fdsgsgs@112.com", <br>
+				"password":"99DSgdvf!upa", <br>
+				"name":"asd", <br>
+				"sname":"dsa", <br>
+				"fname":"fds", <br>
+				"birthday":"1.06.1941", <br>
+				"nationality":"fasd", <br>
+				"registration_region":"fdsf", <br>
+				"sex":"fdsf", <br>
+				"passport":"1023456789"<br>
+			  } </td>
+			<td>1) Неверные поля <br>
+				2) Уже зарегестрирован <br>
+				3) Успешно зарегестрирован <br> </td>
+			<td>email - example@zalupa.kek <br>
+				password - цифры, верхний и нижний регистры, спецсимволы <br>
+				name, fname, sname - кирилица и латиница до 20 символов <br>
+				birthday - пример: 22.12.2011<br>
+				nationality - кирилица, латиница и цифры до 25 символов<br>
+				registration_region - Латиница и кириллица в верхнем и нижнем регистре, символы ". , : -", пробелы и цифры. Не более 120 символов<br>
+				sex - Одна буква: f-женщина, m-мужчина, o-другое<br>
+				passport - 11 цифр в виде: 11023456789<br></td>
+		  </tr>
+		</tbody>
+	  </table>
+<br>
+
+<h2> POST | https://copy-paste-adapt.ru/api/login </h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td>{"email":"petya",<br>
+			"password":"misha?AA"}</td>
+		<td>1) в ответ прилетает json такого вида: <br>
+			{
+				"birthday": "1.06.1941",<br>
+				"fname": "fds",<br>
+				"id": 5,<br>
+				"message": "Успешный логин",<br>
+				"name": "asd",<br>
+				"nationality": "fasd",<br>
+				"passport": "1234567890",<br>
+				"registration_region": "fdsf",<br>
+				"role": "1",<br>
+				"sex": "m",<br>
+				"sname": "dsa"<br>
+			}<br>
+			Где роль по дефолту = 1 <br>
+			2) Неверные учетные данные</td>
+		<td>email - example@zalupa.kek <br>
+			password - цифры, верхний и нижний регистры, спецсимволы <br></td>
+	  </tr>
+	</tbody>
+  </table>
+
+<br>
+<h2> GET | https://copy-paste-adapt.ru/api/getoopt </h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td></td>
+		<td> dropaet OOPT na ebalo </td>
+		<td></td>
+	  </tr>
+	</tbody>
+  </table>
+
+  <br>
+  <h2> POST | https://copy-paste-adapt.ru/api/incedentreport </h2>
+  <table>
+	  <thead>
+		<tr>
+		  <th>Запрос</th>
+		  <th>Ответ</th>
+		  <th>Примечание</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <td>
+			{<br>
+				"comment": "Проходили мимо и увидели костёр",<br>
+				"email": "iza@mail.com",<br>
+				"geo_location": "[ "52°43'6.8", "158°14'9.3" ]",<br>
+				"phone": "+79992223223",<br>
+				"photos": ФОТКИ,<br>
+				"problem_type": "Поджёг",<br>
+				"user_id": "9",<br>
+				"status":"Выясняется"<br>
+			  }</td>
+		  <td> {<br>
+			"comment": "Проходили мимо и увидели костёр",<br>
+			"email": "iza@mail.com",<br>
+			"geo_location": "[ \"52°43'6.8\", \"158°14'9.3\" ]",<br>
+			"message": "Все гуд",<br>
+			"phone": "+79992223223",<br>
+			"photos": [<br>
+			  "/root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/555.jpg",<br>
+			  "/root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/31.jpg",<br>
+			  "/root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/cert.txt",<br>
+			  "/root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/example.py"<br>
+			],<br>
+			"problem_type": "Поджёг",<br>
+			"status": "Выясняется",<br>
+			"user_id": "9"<br>
+		  } </td>
+		  <td>БЛЯТЬ!!!! без доп настроек хидера, просто в боди-форм ебашишь поля где все они текстовые кроме поля photos - они типа file</td>
+		</tr>
+	  </tbody>
+	</table>
+
+<br>
+<h2> POST | https://copy-paste-adapt.ru/api/sendform </h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td>{ <br>
+			"email":"iza@mail.com",<br>
+			"arrive_date":"22.12.2222",<br>
+			"event_format":"прогулка по лесу",<br>
+			"event_aim":"сфоткать белку и ахуеть",<br>
+			"media":"фотографии",<br>
+			"status":"2",<br>
+			"oopt":"Волжский заповедник",<br>
+			"user_id":"9"<br>
+			} </td>
+		<td>1) Неверные форматы входных данных <br>
+			2) Заявка обработана в бд</td>
+		<td>status - цифра от 0 до 9 <br>
+			email - пример: penis@mail.ru <br>
+			arrive_date - формат 22.12.2024<br></td>
+	  </tr>
+	</tbody>
+  </table>
+
+<br>
+<h2> PUT | https://copy-paste-adapt.ru/api/changerole </h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td> {<br>
+			"id":"2", <br>
+			"newrole":"3" <br>
+		 } <br></td>
+		<td>Пользователь с id изменена роль на newrole</td>
+		<td> id - id пользователя в базе users <br>
+			newrole - новая роль для юзера с айди id <br></td>
+	  </tr>
+	</tbody>
+  </table>
+
+<br>
+<h2>GET | https://copy-paste-adapt.ru/api/getadminmoder</h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td>-</td>
+		<td>{<br>
+			"message": "Администраторы и модераторы", <br>
+			"modersadmins": {<br>
+			  "9": {<br>
+				"birthday": "21.04.2004",<br>
+				"email": "kaza@mail.com",<br>
+				"fname": "Иванович",<br>
+				"name": "Дмитрий",<br>
+				"nationality": "русский",<br>
+				"passport": "1023456789",<br>
+				"password": "99DSgdvf!upa",<br>
+				"registration_region": "Краснодарский край",<br>
+				"role": "2",<br>
+				"sex": "m",<br>
+				"sname": "Казаков"<br>
+			  }<br>
+			}<br>
+		  }</td>
+		<td>	Выдает всех юзеров которые являются модерами либо админами <br></td>
+	  </tr>
+	</tbody>
+  </table>
+
+<br>
+<h2>POST | https://copy-paste-adapt.ru/api/loginadmin</h2>
+<table>
+	<thead>
+	  <tr>
+		<th>Запрос</th>
+		<th>Ответ</th>
+		<th>Примечание</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr>
+		<td>{<br>
+			"email": "kaza@mail.com",<br>
+			"password": "99DSgdvf!upa"<br>
+			}<br></td>
+		<td></td>
+		<td>{<br>
+			"birthday": "21.04.2004",<br>
+			"fname": "Иванович",<br>
+			"id": 9,<br>
+			"message": "Успешный логин",<br>
+			"name": "Дмитрий",<br>
+			"nationality": "русский",<br>
+			"passport": "1023456789",<br>
+			"registration_region": "Краснодарский край",<br>
+			"role": "2",<br>
+			"sex": "m",<br>
+			"sname": "Казаков"<br>
+		  }<br><br>
+			если логинится полупидр а не модер или админ то в json летит повестка нахуй <br></td>
+	  </tr>
+	</tbody>
+  </table>
+
+  <br>
+  <h2>GET | https://copy-paste-adapt.ru/api/getallincedents</h2>
+  <table>
+	  <thead>
+		<tr>
+		  <th>Запрос</th>
+		  <th>Ответ</th>
+		  <th>Примечание</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		<tr>
+		  <td>-</td>
+		  <td>{<br>
+			"incedents": {<br>
+			  "27": {<br>
+				"comment": "Проходили мимо и увидели костёр",<br>
+				"email": "iza@mail.com",<br>
+				"geo_location": "[ \"52°43'6.8\", \"158°14'9.3\" ]",<br>
+				"phone": "+79992223223",<br>
+				"photos": "{/root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/555.jpg, <br> /root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/31.jpg, <br> /root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/cert.txt, <br> /root/proj/static/uploads/iza@mail.com/Поджёг_15-06-2024_13:04:09/example.py}",<br>
+				"problem_type": "Поджёг",<br>
+				"status": "Выясняется",<br>
+				"user_id": {<br>
+				  "birthday": "21.04.2004",<br>
+				  "email": "kaza@mail.com",<br>
+				  "fname": "Иванович",<br>
+				  "name": "Дмитрий",<br>
+				  "nationality": "русский",<br>
+				  "passport": "1023456789",<br>
+				  "password": "99DSgdvf!upa",<br>
+				  "registration_region": "Краснодарский край",<br>
+				  "role": "2",<br>
+				  "sex": "m",<br>
+				  "sname": "Казаков"<br>
+				}<br>
+			  }<br>
+			},</td>
+		  <td></td>
+		</tr>
+	  </tbody>
+	</table>
+
+	<br>
+	<h2>GET | https://copy-paste-adapt.ru/api/getallproposals</h2>
+	<table>
+		<thead>
+		  <tr>
+			<th>Запрос</th>
+			<th>Ответ</th>
+			<th>Примечание</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>-</td>
+			<td>{<br>
+				"All Proposals": {<br>
+				  "6": {<br>
+					"arrive_date": "24.12.2222",<br>
+					"email": "iza@mail.com",<br>
+					"event_aim": "сфоткать белку и ахуеть",<br>
+					"event_format": "прогулка по лесу",<br>
+					"media": "прогулка",<br>
+					"oopt": "Волжский заповедник",<br>
+					"status": "2",<br>
+					"user_id": "9"<br>
+				  },<br>
+				  "7": {<br>
+					"arrive_date": "24.12.2222",<br>
+					"email": "iza@mail.com",<br>
+					"event_aim": "сфоткать белку и ахуеть",<br>
+					"event_format": "прогулка по лесу",<br>
+					"media": "фотографии",<br>
+					"oopt": "Краснодарский заповедник",<br>
+					"status": "2",<br>
+					"user_id": "9"<br>
+				  }<br>
+				}<br>
+			  }</td>
+			<td></td>
+		  </tr>
+		</tbody>
+	  </table>
+
+
+	<br>
+	<h2>PUT | https://copy-paste-adapt.ru/api/updateproposalstatus</h2>
+	<table>
+		  <thead>
+			<tr>
+			  <th>Запрос</th>
+			  <th>Ответ</th>
+			  <th>Примечание</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td>{ <br>
+				"id":"6",<br>
+				"newstatus":"4"<br>
+			  }</td>
+			  <td>{<br>
+				"message": "заявка с айди 6 изменила статус на 4"<br>
+			  }</td>
+			  <td></td>
+			</tr>
+		  </tbody>
+		</table>
+  
+	<br>
+	<h2>GET | https://copy-paste-adapt.ru/api/getcurrentuserproposal</h2>
+	<table>
+		  <thead>
+			<tr>
+			  <th>Запрос</th>
+			  <th>Ответ</th>
+			  <th>Примечание</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td>{<br>
+				"user_id":"9"<br>
+			  }</td>
+			  <td>{ <br>
+				"message": {<br>
+				  "9": {<br>
+					"proposal_arrive_date": "24.12.2222",<br>
+					"proposal_email": "iza@mail.com",<br>
+					"proposal_evemt_aim": "сфоткать белку и ахуеть",<br>
+					"proposal_event_format": "прогулка по лесу",<br>
+					"proposal_media": "прогулка",<br>
+					"proposal_oopt": "Волжский заповедник",<br>
+					"proposal_status": "4",<br>
+					"proposal_user_id": {<br>
+					  "birthday": "21.04.2004",<br>
+					  "email": "kaza@mail.com",<br>
+					  "fname": "Иванович",<br>
+					  "id": 9,<br>
+					  "name": "Дмитрий",<br>
+					  "nationality": "русский",<br>
+					  "passport": "1023456789",<br>
+					  "password": "99DSgdvf!upa",<br>
+					  "registration_region": "Краснодарский край",<br>
+					  "role": "2",<br>
+					  "sex": "m",<br>
+					  "sname": "Казаков"<br>
+					}<br>
+				  }<br>
+				}<br>
+			  }</td>
+			  <td></td>
+			</tr>
+		  </tbody>
+		</table>
+
+		<br>
+		<h2>PUT | https://copy-paste-adapt.ru/api/updateincedent</h2>
+		<table>
+			  <thead>
+				<tr>
+				  <th>Запрос</th>
+				  <th>Ответ</th>
+				  <th>Примечание</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				<tr>
+				  <td></td>
+				  <td>{ <br>
+					"message": [ <br>
+					  [ <br>
+						"/root/proj/static/uploads//Пепелище_15-06-2024_13:41:35/555.jpg" <br>
+					  ], <br>
+					  "Проходили мимо и прошли", <br>
+					  "Пепелище", <br>
+					  "+7999000000" <br>
+					] <br>
+				  }</td>
+				  <td> Запрос такой же как на создание инцидента, но те поля которые не изменяются остаются пустыми в json</td>
+				</tr>
+			  </tbody>
+			</table>
+
+			<h2>GET | https://copy-paste-adapt.ru/api/weatherforday</h2>
+			<table>
+				  <thead>
+					<tr>
+					  <th>Запрос</th>
+					  <th>Ответ</th>
+					  <th>Примечание</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<tr>
+					  <td>{ <br>
+						"year":2024,<br>
+						"month":6,<br>
+						"day":16,<br>
+						"latitude":46.075253,<br>
+						"longitude":40.851094<br>
+					  }</td>
+					  <td>{<br>
+						"weather": {<br>
+						  "status": "cloudy",<br>
+						  "temperature": "30.856",<br>
+						  "wind_speed": "4.750789"<br>
+						}<br>
+					  }</td>
+					  <td> все в интах и флоатах, а возвращает строки, status возвращаемой погоды може быть тока: cloudy, clear, rain, thunderstorm</td>
+					</tr>
+				  </tbody>
+				</table>
+
+				<h2>GET | https://copy-paste-adapt.ru/api/recommended</h2>
+				<table>
+					  <thead>
+						<tr>
+						  <th>Запрос</th>
+						  <th>Ответ</th>
+						  <th>Примечание</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td>{ <br>
+							"year":2024,<br>
+							"month":6,<br>
+							"day":16<br>
+						  }</td>
+						  <td>{<br>
+							"recommended": {<br>
+							  "Вилючинский": {<br>
+								"coefficient": 1.0,<br>
+								"difference_to_max": 12976<br>
+							  },<br>
+							  "Ключевской": {<br>
+								"coefficient": 1.0,<br>
+								"difference_to_max": 194<br>
+							  },<br>
+							  "Налычево": {<br>
+								"coefficient": 1.0,<br>
+								"difference_to_max": 569<br>
+							  },<br>
+							  "Южно-Камчатский-Северный": {<br>
+								"coefficient": 1.0,<br>
+								"difference_to_max": 16086<br>
+							  }<br>
+							}<br>
+						  }</td>
+						  <td> РЕКОМЕНДАЛКА!!! ранжирование по coefficient, difference_to_max - это разница предельная минус текущая кол-во людей</td>
+						</tr>
+					  </tbody>
+					</table>
+
+					<h2>GET | https://copy-paste-adapt.ru/api/maxcountpeople</h2>
+					<table>
+						  <thead>
+							<tr>
+							  <th>Запрос</th>
+							  <th>Ответ</th>
+							  <th>Примечание</th>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr>
+							  <td></td>
+							  <td>{<br>
+								"mcp": {<br>
+								  "Вилючинский": 12976,<br>
+								  "Ключевской": 194,<br>
+								  "Налычево": 569,<br>
+								  "Южно-Камчатский-Северный": 16086<br>
+								}<br>
+							  }</td>
+							  <td> список с допустимым кол-вом людей на парке(объекте)</td>
+							</tr>
+						  </tbody>
+						</table>			
+
+<h2>POST | https://copy-paste-adapt.ru/api/logout</h2>
+	<h5>nuzhen budet potom, poka pohui</h5>
+<br>
+<h2>GET | https://copy-paste-adapt.ru/api/protected</h2>
+	<h5>to zhe samoe kak s logout, poka ne trogaem</h5>
+
+
+</body>
+</html>
