@@ -1,6 +1,6 @@
 {
-    "name": "web_test",
-    "short_name": "web_test",
+    "name": "uni_table",
+    "short_name": "uni_table",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
