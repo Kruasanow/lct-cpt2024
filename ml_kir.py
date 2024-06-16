@@ -21,4 +21,4 @@ def predict_count_people(selected_day, latitude, longitude):
     return sum(list_predict_people_on_day)
 
 
-print(predict_count_people(datetime(2024, 5, 3), 33.775219, 37.561395))
+# print(predict_count_people(datetime(2024, 5, 3), 33.775219, 37.561395))
