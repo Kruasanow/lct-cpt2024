@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, make_response, render_template, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-# from flask_bcrypt import Bcrypt
 import hashlib
 from flask_login import LoginManager, login_user, current_user, logout_user, login_required
 from flask_restful import Api, Resource, reqparse
@@ -33,7 +32,6 @@ app.config['SECRET_KEY'] = SECRETKEY
 
 db.init_app(app)
 migrate = Migrate(app, db)
-# bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)
 api = Api(app)
 CORS(app)
@@ -51,10 +49,6 @@ FLUTTER_WEB_APP = 'templates'
 @app.route('/api')
 def api_show():
     return render_template('api.html')
-
-# @app.route('/api/incedentreport')
-# def report():
-#     return render_template('inc.html')
 
 @app.route('/')
 def render_page():
@@ -86,7 +80,6 @@ def load_user(user_id):
 class RegisterAPI(Resource):
     def post(self):
         data = request.get_json()
-        # username = data.get('username')
         email = data.get('email')
         password = data.get('password')
         sname = data.get('sname')
@@ -97,10 +90,6 @@ class RegisterAPI(Resource):
         registration_region = data.get('registration_region')
         sex = data.get('sex')
         passport = data.get('passport')
-        # role = data.get('role')
-
-        # if not is_valid_role(role):
-        #     return make_response(jsonify({"message": "Invalid ROLE. Роль должна быть 1,2 или 3"}))
 
         if not is_valid_sex(sex):
             return make_response(jsonify({
@@ -130,9 +119,6 @@ class RegisterAPI(Resource):
         if not is_valid_passport(passport):
             return make_response(jsonify({'message': 'Invalid passport. не более 11 цифр по длине.'}), 400)
 
-        # if not is_valid_username(username):
-        #     return make_response(jsonify({'message': 'Invalid username. Не более 25 символов по длине username.'}), 400)
-
         if not is_valid_email(email):
             return make_response(jsonify({'message': 'Invalid email. Пример - example@bk.ru.'}), 400)
 
@@ -160,8 +146,7 @@ class LoginAPI(Resource):
             return make_response(jsonify({'message': 'Неверный формат почты.'}), 400)
 
         user = Users.query.filter_by(email=email).first()
-        if user and user.password == hash_password(password):
-            # if user and user.password == password:    
+        if user and user.password == hash_password(password):   
             login_user(user)
             
             return make_response(jsonify({"message": "Успешный логин", 
@@ -188,7 +173,6 @@ class LoginAdminAPI(Resource):
             return make_response(jsonify({'message': 'Неверный формат почты.'}), 400)
 
         user = Users.query.filter_by(email=email).first()
-        # if user and bcrypt.check_password_hash(user.password, bcrypt.generate_password_hash(password).decode('utf-8')):
         if user and user.password == password:
             if user.role == '2' or user.role == '3':  
                 login_user(user)
@@ -231,14 +215,11 @@ class SendFormAPI(Resource):
         if not is_valid_status(status):
             return make_response(jsonify({'message','Invalid status. Статус должен быть цифрой от 0 до 9. Глебас, надо по статусам обговорить '}))
 
-        # try:
         proposal = Proposal(user_id=user_id, arrive_date=arrive_date, email=email, event_format=event_format, 
                             event_aim=event_aim, media=media, status=status, oopt=oopt)
         db.session.add(proposal)
         db.session.commit()
         return make_response(jsonify({'message':'Заявка обработана в бд'}))
-        # except:
-            # return make_response(jsonify({'message':'Произошла ошибка'}))
 
 class IncedentReport(Resource):
     def post(self):
@@ -253,7 +234,6 @@ class IncedentReport(Resource):
         email = request.form.get('email')
         status = request.form.get('status')
         
-        # return make_response(jsonify({'message': str(photos), "comment": comment, "geo_location": geo_location, "user":user, "problem_type":problem_type, "phone":phone, "email":email}))
         if not comment or not geo_location or not user or not problem_type or not phone or not email or not status:
             return make_response(jsonify({'message': 'Все поля обязательны', 
                                           'comment': comment,
@@ -452,7 +432,7 @@ class UpdateIncedent(Resource):
             if photos == "deleteall": 
                 incedents.photos = "No_photo"
                 # db.session.commit()
-                #добавить крад к фолдерам
+                #крад к фолдерам
 
             if photos:
                 photo_filenames = []
@@ -538,7 +518,7 @@ class Recomendalka(Resource):
         tourobjects = TourObject.query.all()
         leha = {}
         for obj in tourobjects:
-            first = len(Proposal.query.filter_by(oopt=obj.name).all()) # 1 elem
+            first = len(Proposal.query.filter_by(oopt=obj.name).all())
             
             coord = obj.coordinates.split('_')
 
@@ -552,7 +532,7 @@ class Recomendalka(Resource):
 
             third = max_count_people(30, TurObjWithoutTimeLim(
                                 name=obj.name, 
-                                Cfn=convert_str_to_list(obj.Cfn), # ВОТ ЭТИ ДАННЫЕ СИНТЕТИКА + ДАННЫЕ ИЗ ТАБЛИЦЫ ООПТ
+                                Cfn=convert_str_to_list(obj.Cfn),
                                 MC=float(obj.MC), 
                                 Ts=float(obj.Ts), 
                                 GS=int(obj.GS), 

@@ -7,3 +7,4 @@ static/uploads/
 tmp/
 venv/
 /insert2.py
+/.cache.sqlite
