@@ -120,3 +120,18 @@ class Routes(db.Model):
         self.Tdp = Tdp
         self.tp = tp
         self.link_to_tourobject = link_to_tourobject
+
+
+class Notifications(db.Model):
+    __tablename__ = 'notifications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    date_time = db.Column(db.String(150))
+    text = db.Column(db.String(150))
+    link_res = db.Column(db.String(150))
+    
+
+    def __init__(self, date_time, text, link_res):
+        self.date_time = date_time
+        self.text = text
+        self.link_res = link_res

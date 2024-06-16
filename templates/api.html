@@ -564,7 +564,32 @@
 							  <td> список с допустимым кол-вом людей на парке(объекте)</td>
 							</tr>
 						  </tbody>
-						</table>			
+						</table>	
+						
+					<h2>POST | https://copy-paste-adapt.ru/api/predictphoto</h2>
+					<table>
+						  <thead>
+							<tr>
+							  <th>Запрос</th>
+							  <th>Ответ</th>
+							  <th>Примечание</th>
+							</tr>
+						  </thead>
+						  <tbody>
+							<tr>
+							  <td>Ожидает фото в виде файлов</td>
+							  <td>{<br>
+								"message": "Все гуд",<br>
+								"predict": {<br>
+								  "31.jpg": "гарь",<br>
+								  "555.jpg": "не гарь"<br>
+								}<br>
+							  }<br>
+							  }</td>
+							  <td> Предик "гарь"/"не гарь" по фото</td>
+							</tr>
+						  </tbody>
+						</table>
 
 <h2>POST | https://copy-paste-adapt.ru/api/logout</h2>
 	<h5>nuzhen budet potom, poka pohui</h5>

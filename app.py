@@ -557,6 +557,39 @@ class WeatherForDay(Resource):
         from route_weather_for_day import get_weather_for_selected_day
         res = get_weather_for_selected_day(datetime(y,m,d),lat,lang)
         return make_response(jsonify({'weather':res}))
+
+class PredictPhoto(Resource):
+    def post(self):
+        from kosmosnimki_neuro import inference
+        model_path = 'model.keras'
+        photos = request.files.getlist('photos')
+        if 'photos' not in request.files:
+            return make_response(jsonify({'message': 'Не удалось загрузить фотографии: поле "photos" отсутствует'}), 400)
+
+        if photos:
+            result = {}
+            for photo in photos:
+                if photo.filename == '':
+                    continue
+                d_t_str = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+                filename = secure_filename(photo.filename) + f'_{d_t_str}'
+                dir_name = '/photo_predict'
+                curr_folder = app.config['UPLOAD_FOLDER']+dir_name
+                os.makedirs(str(curr_folder), exist_ok=True)
+                photo_path = os.path.join((curr_folder), filename)
+                photo.save(photo_path)
+                predict = inference(photo_path, model_path)
+                if predict[0] <= 0.5:
+                    predict_str = 'гарь'
+                else:
+                    predict_str = 'не гарь'
+                result[secure_filename(photo.filename)] = predict_str
+
+            return make_response(jsonify({
+                                            "message":'Все гуд',
+                                            "predict": result
+                                        }), 202)
+        return make_response(jsonify({"message":"фоток нет пачемута"}),409)
 #----------------------------------------------------------------#
 
 api.add_resource(RegisterAPI, '/api/register')                          # +
@@ -577,6 +610,7 @@ api.add_resource(UpdateIncedent, '/api/updateincedent')                 # +
 api.add_resource(MaxCountPeople, '/api/maxcountpeople')                 # +
 api.add_resource(Recomendalka, '/api/recommended')                      # +
 api.add_resource(WeatherForDay, '/api/weatherforday')                   # +
+api.add_resource(PredictPhoto, '/api/predictphoto') 
 
 #------END------------------------------------------------------#
 if __name__ == '__main__':

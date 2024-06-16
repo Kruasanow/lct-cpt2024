@@ -9,3 +9,4 @@ venv/
 /insert2.py
 /.cache.sqlite
 config/
+*.jpg
