@@ -245,7 +245,7 @@ class IncedentReport(Resource):
                                           'email': email}), 400)
 
         if not is_valid_problem_status(status):
-            return make_response(jsonify({'message':'Статус должен быть - "На рассмотрении", "Выясняется", "В процессе", "Решена"'}))
+            return make_response(jsonify({'message':'Статус должен быть - "На рассмотрении", "Выясняется", "В процессе", "Решена"'}),407)
 
         if photos:
             photo_filenames = []
@@ -274,7 +274,7 @@ class IncedentReport(Resource):
                                           'phone': phone,
                                           'status': status,
                                           'email': email}), 202)
-        return make_response(jsonify({"message":"фоток нет пачемута"}))
+        return make_response(jsonify({"message":"фоток нет пачемута"}),409)
 
 class GetAdminModer(Resource):
     # @login_required
