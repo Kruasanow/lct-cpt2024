@@ -209,8 +209,8 @@ class SendFormAPI(Resource):
         if not is_valid_birthday(arrive_date):
             return make_response(jsonify({"message":"Invalid arrive_date. Неверный формат даты прибытия, пример - 10.11.2024"}))
         
-        if not is_valid_email(email):
-            return make_response(jsonify({'message':'Invalid email. Неверный формат email, пример - example@mail.ru'}))
+        # if not is_valid_email(email):
+        #     return make_response(jsonify({'message':'Invalid email. Неверный формат email, пример - example@mail.ru'}))
 
         if not is_valid_status(status):
             return make_response(jsonify({'message','Invalid status. Статус должен быть цифрой от 0 до 9. Глебас, надо по статусам обговорить '}))
