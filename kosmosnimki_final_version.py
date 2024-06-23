@@ -28,6 +28,7 @@ FOLDER = os.getenv("upload_folder")
 CLIENTIDSENTIETALHUB = os.getenv("client_id")
 CLIENTSECRETSENTIETALHUB = os.getenv("client_secret")
 model_path = 'model.keras'
+model_path_deforest = 'model_deforestation.keras'
 
 
 def is_image_mostly_black(image, threshold=30, black_ratio=0.8):
@@ -139,15 +140,24 @@ def fetch_images(token, bbox, start_time, end_time, session):
         os.makedirs(dir_name, exist_ok=True)
         for index, image_data in enumerate(image_data_list):
             predict = inference(image_data, model_path)
+            predict_deforest = inference(image_data, model_path_deforest)
             # print(predict)
             if predict[0] <= 0.5:
                 if image_data.startswith(b'\xff\xd8'):
-                    filename = f'{dir_name}/image_{bbox[0]}_{bbox[1]}_{bbox[2]}_{bbox[3]}.jpg'
+                    filename = f'{dir_name}/image_fumes_{bbox[0]}_{bbox[1]}_{bbox[2]}_{bbox[3]}.jpg'
                     session.add(Notifications(date_time=start_time.strftime('%Y_%m_%d'), text=f'Обнаружена гарь в квадрате с координатам: ({bbox[0]}, {bbox[1]}) ({bbox[2]}, {bbox[3]})', link_res=filename))
                     session.commit()
                     with open(filename, 'wb') as f:
                         f.write(image_data)
                     print(f'Изображение с гарью сохранено как {filename}')
+            if predict_deforest[0] <= 0.5:
+                if image_data.startswith(b'\xff\xd8'):
+                    filename = f'{dir_name}/image_deforestation_{bbox[0]}_{bbox[1]}_{bbox[2]}_{bbox[3]}.jpg'
+                    session.add(Notifications(date_time=start_time.strftime('%Y_%m_%d'), text=f'Обнаружена вырубка в квадрате с координатам: ({bbox[0]}, {bbox[1]}) ({bbox[2]}, {bbox[3]})', link_res=filename))
+                    session.commit()
+                    with open(filename, 'wb') as f:
+                        f.write(image_data)
+                    print(f'Изображение с вырубкой сохранено как {filename}')
     except requests.exceptions.RequestException as e:
         print(f"Ошибка при запросе к API: {e}")
 

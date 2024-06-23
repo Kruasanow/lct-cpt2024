@@ -24,6 +24,26 @@ def inference(image_path, m_path):
     res = model.predict(test_arr)
     return res[0][0], res[0][1]
 
+def inference_deforestation(image_path, m_path):
+    test_arr = []
+    physical_devices = tf.config.list_physical_devices('GPU')
+    if len(physical_devices) > 0:
+        tf.config.experimental.set_memory_growth(physical_devices[0], True)
+        print(f"Using GPU: {physical_devices[0].name}")
+    else:
+        print("No GPU found. Using CPU.")
+    # nparr = np.frombuffer(image_bytes, np.uint8)
+    # test_image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    test_image = cv2.imread(image_path)
+    test_image = cv2.resize(test_image, (32, 32))
+    test_image = np.array(test_image)
+    test_image = test_image / 255
+    test_image = test_image.reshape(1, 32, 32, 3)
+    test_arr.append(test_image)
+    model = keras.models.load_model(m_path)
+    res = model.predict(test_arr)
+    return res[0][0], res[0][1]
+
 
 # test_img_path = "images\\image_707_0.jpg"
 # model_path = 'model.keras'

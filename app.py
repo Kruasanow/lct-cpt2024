@@ -356,6 +356,7 @@ class GetAllSendedForm(Resource):
         proposals = Proposal.query.all()
         prop = {}
         for proposal in proposals:
+            user_info = get_info_about_user(proposal.user_id)
             prop[proposal.id] = {
                 "arrive_date" : proposal.arrive_date,
                 "email": proposal.email,
@@ -364,7 +365,7 @@ class GetAllSendedForm(Resource):
                 "media" : proposal.media,
                 "status" : proposal.status,
                 "oopt" : proposal.oopt,
-                "user_id" : proposal.user_id
+                "user_id" : user_info
             }
         return make_response(jsonify({"All Proposals": prop}))
 
@@ -562,12 +563,14 @@ class PredictPhoto(Resource):
     def post(self):
         from kosmosnimki_neuro import inference
         model_path = 'model.keras'
+        model_path_deforest = 'model_deforestation.keras'
         photos = request.files.getlist('photos')
         if 'photos' not in request.files:
             return make_response(jsonify({'message': 'Не удалось загрузить фотографии: поле "photos" отсутствует'}), 400)
 
         if photos:
-            result = {}
+            result_fumes = {}
+            result_deforest = {}
             for photo in photos:
                 if photo.filename == '':
                     continue
@@ -579,15 +582,22 @@ class PredictPhoto(Resource):
                 photo_path = os.path.join((curr_folder), filename)
                 photo.save(photo_path)
                 predict = inference(photo_path, model_path)
+                predict_deforest = inference(photo_path, model_path)
                 if predict[0] <= 0.5:
-                    predict_str = 'гарь'
+                    predict_str_fumes = 'гарь'
                 else:
-                    predict_str = 'не гарь'
-                result[secure_filename(photo.filename)] = predict_str
+                    predict_str_fumes = 'не гарь'
+                if predict_deforest[0] <= 0.5:
+                    predict_str_deforest = 'вырубка'
+                else:
+                    predict_str_deforest = 'не вырубка'
+                result_fumes[secure_filename(photo.filename)] = predict_str_fumes
+                result_deforest[secure_filename(photo.filename)] = predict_str_deforest
 
             return make_response(jsonify({
                                             "message":'Все гуд',
-                                            "predict": result
+                                            "predict_fumes": result_fumes,
+                                            "predict_deforestation": result_deforest
                                         }), 202)
         return make_response(jsonify({"message":"фоток нет пачемута"}),409)
 #----------------------------------------------------------------#
